@@ -1,8 +1,9 @@
 // app/page.js - Simple, Clean, Light-Themed Agricultural Carbon Footprint Tracker
+// Calibrated with Kaggle Dataset: "Environment Impact of Food Production" (Food_Production.csv)
 "use client";
 
 import { useState, useEffect } from "react";
-import { CROPS, TRANSPORT_MODALITIES, PACKAGING_OPTIONS, FARMING_PRACTICES } from "@/lib/cropsData";
+import { CROPS, TRANSPORT_MODALITIES, PACKAGING_OPTIONS, FARMING_PRACTICES, KAGGLE_SOURCE_INFO } from "@/lib/cropsData";
 import { calculateLCA, generateLiveTelemetry } from "@/lib/carbonEngine";
 import {
   Leaf,
@@ -18,29 +19,38 @@ import {
   AlertTriangle,
   Flame,
   MapPin,
+  Database,
+  Droplets,
+  ExternalLink,
+  Award,
+  Layers,
 } from "lucide-react";
 
 export default function Home() {
   const [activeRegion, setActiveRegion] = useState("india"); // "india" | "global" | "all"
-  const [activeCropId, setActiveCropId] = useState("basmati_rice");
+  const [activeCropId, setActiveCropId] = useState("banana"); // Featured Fruit from Kaggle!
   const [isStreaming, setIsStreaming] = useState(true);
   const [tick, setTick] = useState(0);
 
   // Supply chain choices
   const [farmingId, setFarmingId] = useState("conventional_fossil");
   const [transportId, setTransportId] = useState("tata_ambient_truck");
-  const [packagingId, setPackagingId] = useState("jute_gunny_bag");
+  const [packagingId, setPackagingId] = useState("cfb_telescopic_carton");
 
   // Telemetry & LCA state
   const [telemetry, setTelemetry] = useState(null);
   const [lca, setLca] = useState(null);
   const [showReport, setShowReport] = useState(false);
 
-  const crop = CROPS[activeCropId] || CROPS.basmati_rice;
+  const crop = CROPS[activeCropId] || CROPS.banana;
 
   // Sync default options when crop changes
   useEffect(() => {
-    if (crop.region === "india") {
+    if (crop.id === "banana") {
+      setTransportId("tata_ambient_truck");
+      setPackagingId("cfb_telescopic_carton");
+      setFarmingId("conventional_fossil");
+    } else if (crop.region === "india") {
       if (crop.id === "basmati_rice") {
         setTransportId("tata_ambient_truck");
         setPackagingId("jute_gunny_bag");
@@ -159,16 +169,19 @@ export default function Home() {
                 </span>
                 <span
                   style={{
-                    background: "#fef3c7",
-                    color: "#92400e",
-                    fontSize: "0.7rem",
+                    background: "#f0fdf4",
+                    color: "#166534",
+                    fontSize: "0.72rem",
                     fontWeight: 700,
-                    padding: "0.15rem 0.45rem",
+                    padding: "0.15rem 0.5rem",
                     borderRadius: "4px",
-                    border: "1px solid #fde68a",
+                    border: "1px solid #bbf7d0",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.3rem",
                   }}
                 >
-                  India & Global
+                  <Database size={11} /> Kaggle Data Calibrated
                 </span>
               </div>
               <span style={{ color: "#64748b", fontSize: "0.76rem" }}>
@@ -232,7 +245,7 @@ export default function Home() {
                 letterSpacing: "0.04em",
               }}
             >
-              Step 1 • Select Region & Crop
+              Step 1 • Select Fruit / Crop
             </div>
 
             {/* Region Filter Buttons */}
@@ -246,9 +259,9 @@ export default function Home() {
               }}
             >
               {[
-                { id: "india", label: "🇮🇳 Indian Conditions (4)" },
+                { id: "india", label: "🇮🇳 Indian Crops (5)" },
                 { id: "global", label: "🌍 Global Benchmarks (4)" },
-                { id: "all", label: "All Crops (8)" },
+                { id: "all", label: "All Crops (9)" },
               ].map((r) => {
                 const isActive = activeRegion === r.id;
                 return (
@@ -257,7 +270,7 @@ export default function Home() {
                     onClick={() => {
                       setActiveRegion(r.id);
                       if (r.id === "india" && crop.region !== "india") {
-                        setActiveCropId("basmati_rice");
+                        setActiveCropId("banana");
                       } else if (r.id === "global" && crop.region !== "global") {
                         setActiveCropId("tomato");
                       }
@@ -286,13 +299,14 @@ export default function Home() {
           <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap", marginBottom: "0.75rem" }}>
             {cropList.map((c) => {
               const isSelected = activeCropId === c.id;
+              const isKaggle = Boolean(c.kaggleVerified);
               return (
                 <button
                   key={c.id}
                   onClick={() => setActiveCropId(c.id)}
                   style={{
                     background: isSelected ? "#f0fdf4" : "#ffffff",
-                    border: isSelected ? "2px solid #16a34a" : "1px solid #e2e8f0",
+                    border: isSelected ? "2px solid #16a34a" : isKaggle ? "1px solid #bbf7d0" : "1px solid #e2e8f0",
                     borderRadius: "8px",
                     padding: "0.65rem 1.1rem",
                     cursor: "pointer",
@@ -304,12 +318,18 @@ export default function Home() {
                     fontSize: "0.9rem",
                     boxShadow: isSelected ? "0 2px 4px rgba(22, 163, 74, 0.1)" : "0 1px 2px rgba(0,0,0,0.03)",
                     transition: "all 0.15s ease",
+                    position: "relative",
                   }}
                 >
-                  <span style={{ fontSize: "1.3rem" }}>{c.icon}</span>
+                  <span style={{ fontSize: "1.35rem" }}>{c.icon}</span>
                   <div style={{ textAlign: "left" }}>
-                    <div style={{ lineHeight: 1.2 }}>
-                      {c.commonName.split(" ")[0]} {c.commonName.split(" ")[1] || ""}
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", lineHeight: 1.2 }}>
+                      <span>{c.commonName.split(" ")[0]} {c.commonName.split(" ")[1] || ""}</span>
+                      {isKaggle && (
+                        <span style={{ fontSize: "0.65rem", background: "#dcfce7", color: "#166534", padding: "0.1rem 0.35rem", borderRadius: "3px", fontWeight: 700 }}>
+                          Kaggle
+                        </span>
+                      )}
                     </div>
                     <div
                       style={{
@@ -365,6 +385,128 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Featured Fruit: Dedicated Kaggle Dataset Ground Truth Card */}
+        {crop.kaggleVerified && crop.kaggleData && (
+          <div
+            className="card"
+            style={{
+              borderLeft: "5px solid #16a34a",
+              background: "#ffffff",
+              boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem", marginBottom: "0.85rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                <div style={{ width: 28, height: 28, borderRadius: "6px", background: "#dcfce7", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Database size={16} color="#15803d" />
+                </div>
+                <div>
+                  <h3 style={{ fontSize: "1rem", fontWeight: 700, color: "#0f172a" }}>
+                    Kaggle Ground-Truth Dataset: {crop.kaggleData.csvSource}
+                  </h3>
+                  <div style={{ fontSize: "0.76rem", color: "#64748b" }}>
+                    Source: {KAGGLE_SOURCE_INFO.title} • {KAGGLE_SOURCE_INFO.coverage}
+                  </div>
+                </div>
+              </div>
+
+              <span
+                style={{
+                  fontSize: "0.74rem",
+                  background: "#f0fdf4",
+                  color: "#166534",
+                  padding: "0.2rem 0.6rem",
+                  borderRadius: "6px",
+                  border: "1px solid #bbf7d0",
+                  fontWeight: 600,
+                }}
+              >
+                ✓ Empirically Validated
+              </span>
+            </div>
+
+            {/* Kaggle Metrics Grid */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+                gap: "0.75rem",
+                marginTop: "0.5rem",
+              }}
+            >
+              {/* Metric A */}
+              <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", padding: "0.75rem 0.9rem", borderRadius: "8px" }}>
+                <div style={{ fontSize: "0.74rem", color: "#64748b", fontWeight: 600 }}>KAGGLE TOTAL LCA</div>
+                <div style={{ fontSize: "1.3rem", fontWeight: 800, color: "#0f172a", marginTop: "2px" }}>
+                  {crop.kaggleData.totalEmissionsKgCO2ePerKg} <span style={{ fontSize: "0.75rem", fontWeight: 500, color: "#64748b" }}>kg CO₂e/kg</span>
+                </div>
+                <div style={{ fontSize: "0.72rem", color: "#15803d" }}>Global Median Benchmark</div>
+              </div>
+
+              {/* Metric B */}
+              <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", padding: "0.75rem 0.9rem", borderRadius: "8px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontSize: "0.74rem", color: "#0284c7", fontWeight: 600 }}>
+                  <Droplets size={12} />
+                  <span>FRESHWATER USE</span>
+                </div>
+                <div style={{ fontSize: "1.3rem", fontWeight: 800, color: "#0f172a", marginTop: "2px" }}>
+                  {crop.kaggleData.freshwaterWithdrawalsLitersPerKg} <span style={{ fontSize: "0.75rem", fontWeight: 500, color: "#64748b" }}>Liters/kg</span>
+                </div>
+                <div style={{ fontSize: "0.72rem", color: "#64748b" }}>Scarcity: {crop.kaggleData.scarcityWaterUseLitersPerKg} L/kg</div>
+              </div>
+
+              {/* Metric C */}
+              <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", padding: "0.75rem 0.9rem", borderRadius: "8px" }}>
+                <div style={{ fontSize: "0.74rem", color: "#64748b", fontWeight: 600 }}>LAND FOOTPRINT</div>
+                <div style={{ fontSize: "1.3rem", fontWeight: 800, color: "#0f172a", marginTop: "2px" }}>
+                  {crop.kaggleData.landUseM2PerKg} <span style={{ fontSize: "0.75rem", fontWeight: 500, color: "#64748b" }}>m²/kg</span>
+                </div>
+                <div style={{ fontSize: "0.72rem", color: "#64748b" }}>PO₄ Eutrophication: {crop.kaggleData.eutrophyingEmissionsGramsPO4eq} g/kg</div>
+              </div>
+
+              {/* Metric D */}
+              <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", padding: "0.75rem 0.9rem", borderRadius: "8px" }}>
+                <div style={{ fontSize: "0.74rem", color: "#d97706", fontWeight: 600 }}>INDIA PRODUCTION RANK</div>
+                <div style={{ fontSize: "1.3rem", fontWeight: 800, color: "#92400e", marginTop: "2px" }}>
+                  #1 Globally
+                </div>
+                <div style={{ fontSize: "0.72rem", color: "#92400e" }}>{crop.kaggleData.kaggleIndianProduction}</div>
+              </div>
+            </div>
+
+            {/* Kaggle CSV Life-Cycle Stage Slices */}
+            <div style={{ marginTop: "1rem", paddingTop: "0.85rem", borderTop: "1px solid #f1f5f9" }}>
+              <div style={{ fontSize: "0.78rem", fontWeight: 600, color: "#475569", marginBottom: "0.45rem" }}>
+                Kaggle `Food_Production.csv` Stage Emission Vector (kg CO₂e/kg):
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                {[
+                  { stage: "Farm Cultivation", val: crop.kaggleData.farmEmissions, color: "#16a34a" },
+                  { stage: "Transport Freight", val: crop.kaggleData.transportEmissions, color: "#2563eb" },
+                  { stage: "Packaging Box", val: crop.kaggleData.packagingEmissions, color: "#d97706" },
+                  { stage: "Retail Energy", val: crop.kaggleData.retailEmissions, color: "#9333ea" },
+                  { stage: "Packing Processing", val: crop.kaggleData.processingEmissions, color: "#0284c7" },
+                  { stage: "Land Use Change", val: crop.kaggleData.landUseChangeEmissions, color: "#64748b" },
+                ].map((s) => (
+                  <span
+                    key={s.stage}
+                    style={{
+                      fontSize: "0.76rem",
+                      background: "#f1f5f9",
+                      padding: "0.25rem 0.6rem",
+                      borderRadius: "6px",
+                      color: "#334155",
+                      border: "1px solid #e2e8f0",
+                    }}
+                  >
+                    <strong style={{ color: s.color }}>{s.stage}:</strong> {s.val} kg
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Step 2: Real-time Live Sensor & Grid Telemetry */}
         <div className="card">
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.1rem" }}>
@@ -381,7 +523,7 @@ export default function Home() {
                 Step 2 • Real-Time Field & Energy Telemetry
               </div>
               <h2 style={{ fontSize: "1.2rem", fontWeight: 700, color: "#0f172a", marginTop: "2px" }}>
-                Live Sensors & Freight Monitoring
+                Live Sensors & Cold-Chain Monitoring
               </h2>
             </div>
             <div>
@@ -395,7 +537,7 @@ export default function Home() {
                   border: "1px solid #e2e8f0",
                 }}
               >
-                CEA Coal Baseline: {crop.baselineGridCarbon || 716} g/kWh
+                CEA Baseline: {crop.baselineGridCarbon || 716} g/kWh
               </span>
             </div>
           </div>
@@ -543,15 +685,15 @@ export default function Home() {
                 <div
                   key={al.id}
                   style={{
-                    background: al.type === "warning" ? "#fffbeb" : "#f0fdf4",
-                    border: `1px solid ${al.type === "warning" ? "#fde68a" : "#bbf7d0"}`,
+                    background: al.type === "warning" ? "#fffbeb" : al.type === "error" ? "#fef2f2" : "#f0fdf4",
+                    border: `1px solid ${al.type === "warning" ? "#fde68a" : al.type === "error" ? "#fecaca" : "#bbf7d0"}`,
                     borderRadius: "6px",
                     padding: "0.65rem 0.9rem",
                     display: "flex",
                     alignItems: "center",
                     gap: "0.6rem",
                     fontSize: "0.84rem",
-                    color: al.type === "warning" ? "#92400e" : "#166534",
+                    color: al.type === "warning" ? "#92400e" : al.type === "error" ? "#b91c1c" : "#166534",
                   }}
                 >
                   <AlertTriangle size={16} />
@@ -628,10 +770,10 @@ export default function Home() {
             <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem" }}>
               {[
                 { label: "1. Growth & Cultivation (Water, Soil & Fertilizers)", data: stages.cultivation, color: "#16a34a" },
-                { label: "2. Harvesting & Processing (Milling & Washing)", data: stages.processing, color: "#0284c7" },
-                { label: "3. Packaging Materials (Jute, HDPE Crate, or Plastic)", data: stages.packaging, color: "#d97706" },
-                { label: "4. Transit & Mandi Logistics (Truck or Kisan Rail)", data: stages.transport, color: "#2563eb" },
-                { label: "5. Mandi Display & Food Spoilage (Perishability)", data: stages.retailAndWaste, color: "#9333ea" },
+                { label: "2. Harvesting & Processing (Dehanding, Alum Wash & Packing)", data: stages.processing, color: "#0284c7" },
+                { label: "3. Packaging Materials (CFB Box, Jute, or Plastic)", data: stages.packaging, color: "#d97706" },
+                { label: "4. Transit & Mandi Logistics (Highway Truck or Kisan Rail)", data: stages.transport, color: "#2563eb" },
+                { label: "5. Mandi Display & Food Spoilage (Ripening & Shelf Decay)", data: stages.retailAndWaste, color: "#9333ea" },
               ].map((st) => (
                 <div key={st.label}>
                   <div
@@ -785,7 +927,7 @@ export default function Home() {
               <TrendingDown size={20} color="#16a34a" />
               <span>
                 Verified Reduction: These choices lower total lifecycle emissions by{" "}
-                <strong>{lca.carbonReductionPercent}%</strong> compared to conventional methods (saving{" "}
+                <strong>{lca.carbonReductionPercent}%</strong> compared to conventional baseline (saving{" "}
                 {(((lca.baselineTotalPerKg - lca.totalPerKg) * 5000) / 1000).toFixed(2)} metric tonnes of CO₂e per 5,000 kg harvest).
               </span>
             </div>
@@ -805,7 +947,7 @@ export default function Home() {
         }}
       >
         <div className="container">
-          CropCarbon Tracker • Calibrated with CEA India Grid Database (716 g/kWh) & IPCC Guidelines
+          CropCarbon Tracker • Ground-truth data calibrated with Kaggle "Environment Impact of Food Production" & CEA India
         </div>
       </footer>
 
@@ -855,6 +997,11 @@ export default function Home() {
               <div>
                 <strong>Crop / Produce:</strong> {crop.commonName} ({crop.scientificName})
               </div>
+              {crop.kaggleVerified && (
+                <div style={{ color: "#166534", background: "#f0fdf4", padding: "0.4rem 0.6rem", borderRadius: "6px", border: "1px solid #bbf7d0", fontSize: "0.82rem" }}>
+                  <strong>Kaggle Empirical Source:</strong> {KAGGLE_SOURCE_INFO.title} ({crop.kaggleData.csvSource})
+                </div>
+              )}
               <div>
                 <strong>Agro-Climatic Zone:</strong> {crop.regionName}
               </div>
