@@ -1,5 +1,4 @@
-// app/page.js - CropCarbon: Agricultural Life Cycle CO2 Tracker
-// Configured with Indian Agro-Climatic Conditions & Global Benchmarks
+// app/page.js - Simple, Clean, Light-Themed Agricultural Carbon Footprint Tracker
 "use client";
 
 import { useState, useEffect } from "react";
@@ -18,9 +17,7 @@ import {
   CheckCircle2,
   AlertTriangle,
   Flame,
-  Globe2,
   MapPin,
-  Sparkles,
 } from "lucide-react";
 
 export default function Home() {
@@ -117,16 +114,17 @@ export default function Home() {
   });
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      {/* 1. Header Navbar */}
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "#f8fafc" }}>
+      {/* 1. Header Navbar - Clean, Light */}
       <header
         style={{
-          borderBottom: "1px solid var(--border-subtle)",
-          background: "#0d1318",
-          padding: "1rem 0",
+          borderBottom: "1px solid #e2e8f0",
+          background: "#ffffff",
+          padding: "0.9rem 0",
           position: "sticky",
           top: 0,
           zIndex: 20,
+          boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.03)",
         }}
       >
         <div
@@ -144,37 +142,37 @@ export default function Home() {
               style={{
                 width: 36,
                 height: 36,
-                borderRadius: "10px",
-                background: "rgba(16, 185, 129, 0.15)",
+                borderRadius: "8px",
+                background: "#dcfce7",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                border: "1px solid rgba(16, 185, 129, 0.3)",
+                border: "1px solid #bbf7d0",
               }}
             >
-              <Leaf size={20} color="var(--accent-green-light)" />
+              <Leaf size={20} color="#15803d" />
             </div>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                <span style={{ fontWeight: 800, fontSize: "1.15rem", letterSpacing: "-0.02em" }}>
-                  Crop<span style={{ color: "var(--accent-green)" }}>Carbon</span>
+                <span style={{ fontWeight: 800, fontSize: "1.15rem", letterSpacing: "-0.02em", color: "#0f172a" }}>
+                  Crop<span style={{ color: "#16a34a" }}>Carbon</span>
                 </span>
                 <span
                   style={{
-                    background: "rgba(245, 158, 11, 0.15)",
-                    color: "var(--accent-amber)",
+                    background: "#fef3c7",
+                    color: "#92400e",
                     fontSize: "0.7rem",
                     fontWeight: 700,
                     padding: "0.15rem 0.45rem",
                     borderRadius: "4px",
-                    border: "1px solid rgba(245, 158, 11, 0.3)",
+                    border: "1px solid #fde68a",
                   }}
                 >
-                  India & Global LCA
+                  India & Global
                 </span>
               </div>
-              <span style={{ color: "var(--text-dim)", fontSize: "0.76rem" }}>
-                Real-Time Agricultural Life Cycle CO₂e & Telemetry Engine
+              <span style={{ color: "#64748b", fontSize: "0.76rem" }}>
+                Agricultural Life Cycle CO₂e & Telemetry Tracker
               </span>
             </div>
           </div>
@@ -183,11 +181,11 @@ export default function Home() {
             <button
               onClick={() => setIsStreaming(!isStreaming)}
               className="live-badge"
-              style={{ cursor: "pointer", border: "1px solid rgba(16, 185, 129, 0.3)" }}
-              title="Click to pause or resume real-time sensor stream"
+              style={{ cursor: "pointer" }}
+              title="Click to pause or resume real-time data"
             >
               <span className="live-dot" />
-              <span>{isStreaming ? "Telemetry Live" : "Stream Paused"}</span>
+              <span>{isStreaming ? "Live Feed Connected" : "Feed Paused"}</span>
             </button>
 
             <button
@@ -196,7 +194,7 @@ export default function Home() {
               style={{ fontSize: "0.82rem", padding: "0.45rem 0.95rem" }}
             >
               <FileText size={15} />
-              <span>Audit Report</span>
+              <span>Summary Report</span>
             </button>
           </div>
         </div>
@@ -209,31 +207,48 @@ export default function Home() {
           padding: "2rem 1.5rem 4rem",
           display: "flex",
           flexDirection: "column",
-          gap: "2rem",
+          gap: "1.75rem",
           flex: 1,
         }}
       >
         {/* Step 1: Regional Agro-Climatic Selector & Crop Strip */}
         <div>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem", marginBottom: "0.75rem" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: "0.5rem",
+              marginBottom: "0.75rem",
+            }}
+          >
             <div
               style={{
-                fontSize: "0.8rem",
-                color: "var(--accent-green)",
-                fontWeight: 600,
+                fontSize: "0.82rem",
+                color: "#15803d",
+                fontWeight: 700,
                 textTransform: "uppercase",
-                letterSpacing: "0.05em",
+                letterSpacing: "0.04em",
               }}
             >
-              Step 1 • Select Agro-Climatic Region & Crop
+              Step 1 • Select Region & Crop
             </div>
 
             {/* Region Filter Buttons */}
-            <div style={{ display: "flex", background: "var(--bg-input)", padding: "0.2rem", borderRadius: "8px", border: "1px solid var(--border-subtle)" }}>
+            <div
+              style={{
+                display: "flex",
+                background: "#f1f5f9",
+                padding: "0.25rem",
+                borderRadius: "8px",
+                border: "1px solid #e2e8f0",
+              }}
+            >
               {[
-                { id: "india", label: "🇮🇳 Indian Conditions", count: 4 },
-                { id: "global", label: "🌍 Global / EU Benchmarks", count: 4 },
-                { id: "all", label: "All Crops", count: 8 },
+                { id: "india", label: "🇮🇳 Indian Conditions (4)" },
+                { id: "global", label: "🌍 Global Benchmarks (4)" },
+                { id: "all", label: "All Crops (8)" },
               ].map((r) => {
                 const isActive = activeRegion === r.id;
                 return (
@@ -248,13 +263,14 @@ export default function Home() {
                       }
                     }}
                     style={{
-                      background: isActive ? "var(--accent-green)" : "transparent",
-                      color: isActive ? "#04140b" : "var(--text-muted)",
+                      background: isActive ? "#ffffff" : "transparent",
+                      color: isActive ? "#0f172a" : "#64748b",
                       fontWeight: isActive ? 700 : 500,
                       fontSize: "0.78rem",
-                      padding: "0.3rem 0.75rem",
+                      padding: "0.35rem 0.85rem",
                       borderRadius: "6px",
                       border: "none",
+                      boxShadow: isActive ? "0 1px 3px rgba(0, 0, 0, 0.08)" : "none",
                       cursor: "pointer",
                       transition: "all 0.15s ease",
                     }}
@@ -275,24 +291,32 @@ export default function Home() {
                   key={c.id}
                   onClick={() => setActiveCropId(c.id)}
                   style={{
-                    background: isSelected ? "var(--bg-card-subtle)" : "var(--bg-card)",
-                    border: isSelected ? "2px solid var(--accent-green)" : "1px solid var(--border-subtle)",
-                    borderRadius: "var(--radius-sm)",
+                    background: isSelected ? "#f0fdf4" : "#ffffff",
+                    border: isSelected ? "2px solid #16a34a" : "1px solid #e2e8f0",
+                    borderRadius: "8px",
                     padding: "0.65rem 1.1rem",
                     cursor: "pointer",
                     display: "flex",
                     alignItems: "center",
                     gap: "0.6rem",
-                    color: isSelected ? "#fff" : "var(--text-muted)",
-                    fontWeight: isSelected ? 600 : 500,
+                    color: isSelected ? "#15803d" : "#334155",
+                    fontWeight: isSelected ? 700 : 500,
                     fontSize: "0.9rem",
+                    boxShadow: isSelected ? "0 2px 4px rgba(22, 163, 74, 0.1)" : "0 1px 2px rgba(0,0,0,0.03)",
                     transition: "all 0.15s ease",
                   }}
                 >
                   <span style={{ fontSize: "1.3rem" }}>{c.icon}</span>
                   <div style={{ textAlign: "left" }}>
-                    <div style={{ lineHeight: 1.2 }}>{c.commonName.split(" ")[0]} {c.commonName.split(" ")[1] || ""}</div>
-                    <div style={{ fontSize: "0.7rem", color: isSelected ? "var(--accent-green-light)" : "var(--text-dim)" }}>
+                    <div style={{ lineHeight: 1.2 }}>
+                      {c.commonName.split(" ")[0]} {c.commonName.split(" ")[1] || ""}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "0.7rem",
+                        color: isSelected ? "#166534" : "#64748b",
+                      }}
+                    >
                       {c.region === "india" ? "🇮🇳 " + c.regionName.replace("India ", "") : "🌍 " + c.regionName.split(" ")[0]}
                     </div>
                   </div>
@@ -304,25 +328,36 @@ export default function Home() {
           {/* Active Crop Description Banner */}
           <div
             style={{
-              background: "rgba(255, 255, 255, 0.03)",
-              border: "1px solid var(--border-subtle)",
-              borderRadius: "var(--radius-sm)",
-              padding: "0.75rem 1rem",
+              background: "#ffffff",
+              border: "1px solid #e2e8f0",
+              borderRadius: "8px",
+              padding: "0.85rem 1.1rem",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
               flexWrap: "wrap",
               gap: "0.75rem",
-              fontSize: "0.82rem",
+              fontSize: "0.85rem",
+              color: "#334155",
+              boxShadow: "0 1px 2px rgba(0,0,0,0.02)",
             }}
           >
             <div>
-              <span style={{ color: "#fff", fontWeight: 600 }}>{crop.commonName}</span>{" "}
-              <span style={{ color: "var(--text-dim)", fontStyle: "italic" }}>({crop.scientificName})</span>
-              <p style={{ color: "var(--text-muted)", marginTop: "2px" }}>{crop.description}</p>
+              <span style={{ color: "#0f172a", fontWeight: 700 }}>{crop.commonName}</span>{" "}
+              <span style={{ color: "#64748b", fontStyle: "italic" }}>({crop.scientificName})</span>
+              <p style={{ color: "#475569", marginTop: "3px" }}>{crop.description}</p>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", color: "var(--accent-green-light)", fontSize: "0.78rem" }}>
-              <MapPin size={14} />
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.4rem",
+                color: "#15803d",
+                fontSize: "0.78rem",
+                fontWeight: 600,
+              }}
+            >
+              <MapPin size={15} />
               <span>
                 {crop.originFarm.name} → {crop.originFarm.destination?.split("(")[0]} ({crop.originFarm.defaultDistanceKm} km)
               </span>
@@ -330,27 +365,36 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Step 2: Real-time Live Sensor & Grid Telemetry Feed */}
+        {/* Step 2: Real-time Live Sensor & Grid Telemetry */}
         <div className="card">
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.1rem" }}>
             <div>
               <div
                 style={{
-                  fontSize: "0.8rem",
-                  color: "var(--accent-green)",
-                  fontWeight: 600,
+                  fontSize: "0.82rem",
+                  color: "#15803d",
+                  fontWeight: 700,
                   textTransform: "uppercase",
-                  letterSpacing: "0.05em",
+                  letterSpacing: "0.04em",
                 }}
               >
-                Step 2 • Real-Time IoT & Energy Grid Telemetry
+                Step 2 • Real-Time Field & Energy Telemetry
               </div>
-              <h2 style={{ fontSize: "1.2rem", fontWeight: 700, marginTop: "2px" }}>
-                Live Field & Logistics Monitoring
+              <h2 style={{ fontSize: "1.2rem", fontWeight: 700, color: "#0f172a", marginTop: "2px" }}>
+                Live Sensors & Freight Monitoring
               </h2>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              <span style={{ fontSize: "0.75rem", color: "var(--text-dim)" }}>
+            <div>
+              <span
+                style={{
+                  fontSize: "0.75rem",
+                  color: "#64748b",
+                  background: "#f1f5f9",
+                  padding: "0.25rem 0.6rem",
+                  borderRadius: "6px",
+                  border: "1px solid #e2e8f0",
+                }}
+              >
                 CEA Coal Baseline: {crop.baselineGridCarbon || 716} g/kWh
               </span>
             </div>
@@ -359,130 +403,134 @@ export default function Home() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: farm.soilCH4Flux ? "repeat(auto-fit, minmax(180px, 1fr))" : "repeat(auto-fit, minmax(210px, 1fr))",
+              gridTemplateColumns: farm.soilCH4Flux ? "repeat(auto-fit, minmax(170px, 1fr))" : "repeat(auto-fit, minmax(210px, 1fr))",
               gap: "1rem",
             }}
           >
             {/* Metric 1: Field Temperature */}
-            <div style={{ background: "var(--bg-input)", padding: "1rem", borderRadius: "var(--radius-sm)" }}>
+            <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", padding: "1rem", borderRadius: "8px" }}>
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
                   gap: "0.4rem",
-                  color: "var(--text-dim)",
+                  color: "#0284c7",
                   fontSize: "0.78rem",
+                  fontWeight: 600,
                   marginBottom: "0.3rem",
                 }}
               >
-                <Thermometer size={14} color="var(--accent-cyan)" />
+                <Thermometer size={15} />
                 <span>Field Temperature</span>
               </div>
-              <div style={{ fontSize: "1.4rem", fontWeight: 700, color: "#fff" }}>
+              <div style={{ fontSize: "1.45rem", fontWeight: 800, color: "#0f172a" }}>
                 {farm.ambientTemp}°C
               </div>
-              <div style={{ fontSize: "0.75rem", color: "var(--text-dim)" }}>
+              <div style={{ fontSize: "0.75rem", color: "#64748b" }}>
                 Humidity: {farm.relativeHumidity}% RH
               </div>
             </div>
 
             {/* Metric 2: Soil N2O Flux */}
-            <div style={{ background: "var(--bg-input)", padding: "1rem", borderRadius: "var(--radius-sm)" }}>
+            <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", padding: "1rem", borderRadius: "8px" }}>
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
                   gap: "0.4rem",
-                  color: "var(--text-dim)",
+                  color: "#166534",
                   fontSize: "0.78rem",
+                  fontWeight: 600,
                   marginBottom: "0.3rem",
                 }}
               >
-                <Wind size={14} color="var(--accent-green-light)" />
+                <Wind size={15} />
                 <span>Soil N₂O Flux</span>
               </div>
-              <div style={{ fontSize: "1.4rem", fontWeight: 700, color: "var(--accent-green-light)" }}>
-                {farm.soilN2OFlux} <span style={{ fontSize: "0.8rem", fontWeight: 400 }}>mg/m²/h</span>
+              <div style={{ fontSize: "1.45rem", fontWeight: 800, color: "#15803d" }}>
+                {farm.soilN2OFlux} <span style={{ fontSize: "0.8rem", fontWeight: 500 }}>mg/m²/h</span>
               </div>
-              <div style={{ fontSize: "0.75rem", color: "var(--text-dim)" }}>
-                Synthetic Urea Volatilization
+              <div style={{ fontSize: "0.75rem", color: "#166534" }}>
+                Nitrogen Volatilization
               </div>
             </div>
 
             {/* Metric 2B (If Paddy): Soil Methane CH4 Flux */}
             {farm.soilCH4Flux && (
-              <div style={{ background: "rgba(239, 68, 68, 0.08)", border: "1px solid rgba(239, 68, 68, 0.25)", padding: "1rem", borderRadius: "var(--radius-sm)" }}>
+              <div style={{ background: "#fef2f2", border: "1px solid #fecaca", padding: "1rem", borderRadius: "8px" }}>
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
                     gap: "0.4rem",
-                    color: "var(--accent-rose)",
+                    color: "#dc2626",
                     fontSize: "0.78rem",
-                    marginBottom: "0.3rem",
                     fontWeight: 600,
+                    marginBottom: "0.3rem",
                   }}
                 >
-                  <Flame size={14} />
+                  <Flame size={15} />
                   <span>Paddy CH₄ Methane</span>
                 </div>
-                <div style={{ fontSize: "1.4rem", fontWeight: 700, color: "var(--accent-rose)" }}>
-                  {farm.soilCH4Flux} <span style={{ fontSize: "0.8rem", fontWeight: 400 }}>mg/m²/h</span>
+                <div style={{ fontSize: "1.45rem", fontWeight: 800, color: "#b91c1c" }}>
+                  {farm.soilCH4Flux} <span style={{ fontSize: "0.8rem", fontWeight: 500 }}>mg/m²/h</span>
                 </div>
-                <div style={{ fontSize: "0.75rem", color: "var(--accent-rose)", opacity: 0.9 }}>
-                  28× Global Warming Potential
+                <div style={{ fontSize: "0.75rem", color: "#b91c1c" }}>
+                  28× Global Warming Impact
                 </div>
               </div>
             )}
 
             {/* Metric 3: Regional Grid Carbon */}
-            <div style={{ background: "var(--bg-input)", padding: "1rem", borderRadius: "var(--radius-sm)" }}>
+            <div style={{ background: "#fffbeb", border: "1px solid #fde68a", padding: "1rem", borderRadius: "8px" }}>
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
                   gap: "0.4rem",
-                  color: "var(--text-dim)",
+                  color: "#b45309",
                   fontSize: "0.78rem",
+                  fontWeight: 600,
                   marginBottom: "0.3rem",
                 }}
               >
-                <Zap size={14} color="var(--accent-amber)" />
+                <Zap size={15} />
                 <span>Grid Carbon Factor</span>
               </div>
-              <div style={{ fontSize: "1.4rem", fontWeight: 700, color: "#fff" }}>
-                {farm.gridCarbonIntensity} <span style={{ fontSize: "0.8rem", fontWeight: 400 }}>gCO₂/kWh</span>
+              <div style={{ fontSize: "1.45rem", fontWeight: 800, color: "#92400e" }}>
+                {farm.gridCarbonIntensity} <span style={{ fontSize: "0.8rem", fontWeight: 500 }}>gCO₂/kWh</span>
               </div>
-              <div style={{ fontSize: "0.75rem", color: farm.solarIrradiance > 600 ? "var(--accent-green-light)" : "var(--text-dim)" }}>
+              <div style={{ fontSize: "0.75rem", color: "#b45309" }}>
                 {farm.solarIrradiance > 600 ? "☀️ PM-KUSUM Solar Active" : "Thermal Grid Standard"}
               </div>
             </div>
 
-            {/* Metric 4: Transport Fleet & Spoilage Envelope */}
-            <div style={{ background: "var(--bg-input)", padding: "1rem", borderRadius: "var(--radius-sm)" }}>
+            {/* Metric 4: Transport Fleet & Cargo Envelope */}
+            <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", padding: "1rem", borderRadius: "8px" }}>
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
                   gap: "0.4rem",
-                  color: "var(--text-dim)",
+                  color: "#2563eb",
                   fontSize: "0.78rem",
+                  fontWeight: 600,
                   marginBottom: "0.3rem",
                 }}
               >
-                <Truck size={14} color="var(--accent-cyan)" />
+                <Truck size={15} />
                 <span>Transit Cargo Temp</span>
               </div>
               <div
                 style={{
-                  fontSize: "1.4rem",
-                  fontWeight: 700,
-                  color: transport.coldChainStatus === "critical" ? "var(--accent-rose)" : transport.coldChainStatus === "caution" ? "var(--accent-amber)" : "var(--accent-cyan)",
+                  fontSize: "1.45rem",
+                  fontWeight: 800,
+                  color: transport.coldChainStatus === "critical" ? "#dc2626" : transport.coldChainStatus === "caution" ? "#d97706" : "#0f172a",
                 }}
               >
                 {transport.reeferCargoTemp}°C
               </div>
-              <div style={{ fontSize: "0.75rem", color: "var(--text-dim)" }}>
+              <div style={{ fontSize: "0.75rem", color: "#64748b" }}>
                 Speed: {transport.truckSpeed} km/h • {transport.vehicleId.split(" ")[0]}
               </div>
             </div>
@@ -495,18 +543,18 @@ export default function Home() {
                 <div
                   key={al.id}
                   style={{
-                    background: al.type === "warning" ? "rgba(245, 158, 11, 0.1)" : "rgba(16, 185, 129, 0.1)",
-                    border: `1px solid ${al.type === "warning" ? "rgba(245, 158, 11, 0.3)" : "rgba(16, 185, 129, 0.3)"}`,
+                    background: al.type === "warning" ? "#fffbeb" : "#f0fdf4",
+                    border: `1px solid ${al.type === "warning" ? "#fde68a" : "#bbf7d0"}`,
                     borderRadius: "6px",
-                    padding: "0.6rem 0.85rem",
+                    padding: "0.65rem 0.9rem",
                     display: "flex",
                     alignItems: "center",
                     gap: "0.6rem",
-                    fontSize: "0.8rem",
-                    color: al.type === "warning" ? "var(--accent-amber)" : "var(--accent-green-light)",
+                    fontSize: "0.84rem",
+                    color: al.type === "warning" ? "#92400e" : "#166534",
                   }}
                 >
-                  <AlertTriangle size={15} />
+                  <AlertTriangle size={16} />
                   <span>
                     <strong>{al.title}:</strong> {al.message}
                   </span>
@@ -517,14 +565,14 @@ export default function Home() {
         </div>
 
         {/* Step 3: Total Carbon LCA Calculation */}
-        <div className="card" style={{ borderLeft: `5px solid ${lca.ecoGradeColor}` }}>
+        <div className="card" style={{ borderLeft: `6px solid ${lca.ecoGradeColor}` }}>
           <div
             style={{
-              fontSize: "0.8rem",
-              color: "var(--accent-green)",
-              fontWeight: 600,
+              fontSize: "0.82rem",
+              color: "#15803d",
+              fontWeight: 700,
               textTransform: "uppercase",
-              letterSpacing: "0.05em",
+              letterSpacing: "0.04em",
               marginBottom: "0.4rem",
             }}
           >
@@ -543,63 +591,63 @@ export default function Home() {
           >
             <div>
               <div style={{ display: "flex", alignItems: "baseline", gap: "0.6rem" }}>
-                <span style={{ fontSize: "3rem", fontWeight: 800, color: "#fff", lineHeight: 1 }}>
+                <span style={{ fontSize: "3.2rem", fontWeight: 800, color: "#0f172a", lineHeight: 1 }}>
                   {lca.totalPerKg}
                 </span>
-                <span style={{ fontSize: "1.1rem", color: "var(--text-muted)" }}>
+                <span style={{ fontSize: "1.1rem", color: "#475569", fontWeight: 500 }}>
                   kg CO₂e per 1 kg of {crop.commonName}
                 </span>
               </div>
-              <p style={{ color: lca.ecoGradeColor, fontWeight: 700, fontSize: "0.92rem", marginTop: "0.4rem" }}>
+              <p style={{ color: lca.ecoGradeColor, fontWeight: 700, fontSize: "0.95rem", marginTop: "0.4rem" }}>
                 Eco-Grade: {lca.ecoGrade} • {lca.ecoGradeLabel}
               </p>
             </div>
 
             <div style={{ textAlign: "right" }}>
-              <div style={{ fontSize: "0.75rem", color: "var(--text-dim)" }}>
+              <div style={{ fontSize: "0.75rem", color: "#64748b", fontWeight: 600 }}>
                 BATCH FOOTPRINT (5,000 KG HARVEST)
               </div>
-              <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#fff" }}>
+              <div style={{ fontSize: "1.7rem", fontWeight: 800, color: "#0f172a" }}>
                 {lca.batchTotalTonnes}{" "}
-                <span style={{ fontSize: "0.9rem", fontWeight: 400, color: "var(--text-muted)" }}>
+                <span style={{ fontSize: "0.95rem", fontWeight: 500, color: "#64748b" }}>
                   Tonnes CO₂e
                 </span>
               </div>
-              <div style={{ fontSize: "0.8rem", color: "var(--accent-green-light)" }}>
-                Requires {lca.equivalents.treesYearsToOffset} Tree-Years to neutralize
+              <div style={{ fontSize: "0.82rem", color: "#15803d", fontWeight: 600 }}>
+                Neutralized by {lca.equivalents.treesYearsToOffset} Tree-Years
               </div>
             </div>
           </div>
 
           {/* 5-Stage Life Cycle Pipeline Breakdown */}
-          <div style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "1.25rem" }}>
-            <div style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--text-main)", marginBottom: "0.85rem" }}>
-              Carbon Breakdown Across Supply Chain Stages:
+          <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: "1.25rem" }}>
+            <div style={{ fontSize: "0.88rem", fontWeight: 700, color: "#0f172a", marginBottom: "0.85rem" }}>
+              Emissions by Supply Chain Stage:
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem" }}>
               {[
-                { label: "1. Growth & Cultivation (Soil, Water Pumping & Nitrogen)", data: stages.cultivation, color: "#10b981" },
-                { label: "2. Harvesting & Processing (Parboiling, Grading & Milling)", data: stages.processing, color: "#06b6d4" },
-                { label: "3. Packaging Materials (Jute, HDPE Crate, or Polymers)", data: stages.packaging, color: "#f59e0b" },
-                { label: "4. Transit & Mandi Logistics (Highway Truck / Kisan Rail)", data: stages.transport, color: "#3b82f6" },
-                { label: "5. Mandi Display & Food Spoilage Loss (Perishability)", data: stages.retailAndWaste, color: "#a855f7" },
+                { label: "1. Growth & Cultivation (Water, Soil & Fertilizers)", data: stages.cultivation, color: "#16a34a" },
+                { label: "2. Harvesting & Processing (Milling & Washing)", data: stages.processing, color: "#0284c7" },
+                { label: "3. Packaging Materials (Jute, HDPE Crate, or Plastic)", data: stages.packaging, color: "#d97706" },
+                { label: "4. Transit & Mandi Logistics (Truck or Kisan Rail)", data: stages.transport, color: "#2563eb" },
+                { label: "5. Mandi Display & Food Spoilage (Perishability)", data: stages.retailAndWaste, color: "#9333ea" },
               ].map((st) => (
                 <div key={st.label}>
                   <div
                     style={{
                       display: "flex",
                       justifyContent: "space-between",
-                      fontSize: "0.82rem",
-                      marginBottom: "0.25rem",
+                      fontSize: "0.84rem",
+                      marginBottom: "0.3rem",
                     }}
                   >
-                    <span style={{ color: "var(--text-muted)" }}>{st.label}</span>
-                    <span style={{ fontWeight: 600, color: "#fff" }}>
-                      {st.data?.kgCO2e} kg <span style={{ color: "var(--text-dim)" }}>({st.data?.pct}%)</span>
+                    <span style={{ color: "#334155", fontWeight: 500 }}>{st.label}</span>
+                    <span style={{ fontWeight: 700, color: "#0f172a" }}>
+                      {st.data?.kgCO2e} kg <span style={{ color: "#64748b", fontWeight: 400 }}>({st.data?.pct}%)</span>
                     </span>
                   </div>
-                  <div style={{ height: "7px", background: "rgba(255,255,255,0.06)", borderRadius: "4px", overflow: "hidden" }}>
+                  <div style={{ height: "8px", background: "#f1f5f9", borderRadius: "4px", overflow: "hidden", border: "1px solid #e2e8f0" }}>
                     <div
                       style={{
                         width: `${st.data?.pct || 0}%`,
@@ -620,21 +668,21 @@ export default function Home() {
         <div className="card">
           <div
             style={{
-              fontSize: "0.8rem",
-              color: "var(--accent-green)",
-              fontWeight: 600,
+              fontSize: "0.82rem",
+              color: "#15803d",
+              fontWeight: 700,
               textTransform: "uppercase",
-              letterSpacing: "0.05em",
+              letterSpacing: "0.04em",
               marginBottom: "0.4rem",
             }}
           >
             Step 4 • What-If Scenario Lab: Decarbonize the Value Chain
           </div>
-          <h2 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: "0.3rem" }}>
+          <h2 style={{ fontSize: "1.2rem", fontWeight: 700, color: "#0f172a", marginBottom: "0.3rem" }}>
             Test Decarbonization Interventions
           </h2>
-          <p style={{ color: "var(--text-dim)", fontSize: "0.84rem", marginBottom: "1.25rem" }}>
-            Select Indian government schemes (PM-KUSUM, Kisan Rail), indigenous jute sacks, or regenerative soil methods to calculate immediate CO₂ cuts:
+          <p style={{ color: "#64748b", fontSize: "0.85rem", marginBottom: "1.25rem" }}>
+            Change farming methods, transport, or packaging to calculate immediate carbon cuts:
           </p>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1.25rem" }}>
@@ -646,7 +694,7 @@ export default function Home() {
                   fontWeight: 600,
                   display: "block",
                   marginBottom: "0.4rem",
-                  color: "var(--text-muted)",
+                  color: "#334155",
                 }}
               >
                 Irrigation & Soil Practice:
@@ -672,7 +720,7 @@ export default function Home() {
                   fontWeight: 600,
                   display: "block",
                   marginBottom: "0.4rem",
-                  color: "var(--text-muted)",
+                  color: "#334155",
                 }}
               >
                 Freight Modality:
@@ -698,7 +746,7 @@ export default function Home() {
                   fontWeight: 600,
                   display: "block",
                   marginBottom: "0.4rem",
-                  color: "var(--text-muted)",
+                  color: "#334155",
                 }}
               >
                 Packaging Material:
@@ -722,22 +770,22 @@ export default function Home() {
             <div
               style={{
                 marginTop: "1.25rem",
-                background: "rgba(16, 185, 129, 0.12)",
-                border: "1px solid rgba(16, 185, 129, 0.3)",
-                borderRadius: "var(--radius-sm)",
+                background: "#f0fdf4",
+                border: "1px solid #bbf7d0",
+                borderRadius: "8px",
                 padding: "0.85rem 1.1rem",
                 display: "flex",
                 alignItems: "center",
                 gap: "0.75rem",
-                color: "var(--accent-green-light)",
+                color: "#166534",
                 fontSize: "0.9rem",
                 fontWeight: 600,
               }}
             >
-              <TrendingDown size={20} />
+              <TrendingDown size={20} color="#16a34a" />
               <span>
-                Verified Impact: These interventions reduce total lifecycle emissions by{" "}
-                <strong>{lca.carbonReductionPercent}%</strong> compared to conventional baseline (saving{" "}
+                Verified Reduction: These choices lower total lifecycle emissions by{" "}
+                <strong>{lca.carbonReductionPercent}%</strong> compared to conventional methods (saving{" "}
                 {(((lca.baselineTotalPerKg - lca.totalPerKg) * 5000) / 1000).toFixed(2)} metric tonnes of CO₂e per 5,000 kg harvest).
               </span>
             </div>
@@ -745,19 +793,19 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Footer */}
+      {/* Footer - Light, Clean */}
       <footer
         style={{
-          borderTop: "1px solid var(--border-subtle)",
+          borderTop: "1px solid #e2e8f0",
           padding: "1.25rem 0",
-          color: "var(--text-dim)",
-          fontSize: "0.8rem",
+          color: "#64748b",
+          fontSize: "0.82rem",
           textAlign: "center",
-          background: "#080c0f",
+          background: "#ffffff",
         }}
       >
         <div className="container">
-          CropCarbon Tracker • Calibrated with CEA India Grid Database (716 g/kWh) & IPCC Agriculture Guidelines
+          CropCarbon Tracker • Calibrated with CEA India Grid Database (716 g/kWh) & IPCC Guidelines
         </div>
       </footer>
 
@@ -771,13 +819,13 @@ export default function Home() {
                 alignItems: "center",
                 justifyContent: "space-between",
                 marginBottom: "1.25rem",
-                borderBottom: "1px solid var(--border-subtle)",
+                borderBottom: "1px solid #e2e8f0",
                 paddingBottom: "0.75rem",
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                <CheckCircle2 size={20} color="var(--accent-green)" />
-                <h3 style={{ fontSize: "1.2rem", fontWeight: 700 }}>
+                <CheckCircle2 size={20} color="#16a34a" />
+                <h3 style={{ fontSize: "1.2rem", fontWeight: 700, color: "#0f172a" }}>
                   Carbon Footprint Audit Certification
                 </h3>
               </div>
@@ -786,7 +834,7 @@ export default function Home() {
                 style={{
                   background: "transparent",
                   border: "none",
-                  color: "var(--text-dim)",
+                  color: "#64748b",
                   cursor: "pointer",
                 }}
               >
@@ -796,8 +844,8 @@ export default function Home() {
 
             <div
               style={{
-                fontSize: "0.86rem",
-                color: "var(--text-muted)",
+                fontSize: "0.88rem",
+                color: "#334155",
                 display: "flex",
                 flexDirection: "column",
                 gap: "0.75rem",
@@ -821,7 +869,7 @@ export default function Home() {
               </div>
               <div>
                 <strong>Total Lifecycle Footprint:</strong>{" "}
-                <span style={{ color: "#fff", fontWeight: 700, fontSize: "1rem" }}>
+                <span style={{ color: "#0f172a", fontWeight: 800, fontSize: "1.05rem" }}>
                   {lca.totalPerKg} kg CO₂e / kg produce
                 </span>
               </div>
